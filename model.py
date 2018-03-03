@@ -1,5 +1,6 @@
 import tensorflow as tf
 
+# CNN model defined for MNIST
 class MNIST_CNN:
   
   def __init__(self, name='MNIST'):
@@ -8,12 +9,15 @@ class MNIST_CNN:
   def __call__(self, images, reuse=False):
     with tf.variable_scope(self.name) as scope:
       
+      # To reuse variables for retraining
       if reuse:
         scope.reuse_variables()
       
+      # Input Layer
       with tf.variable_scope('input_layer'):
         X = tf.reshape(images, (-1, 28, 28, 1))
         
+      # Layer #1 -> Convolution + ReLU + MaxPooling  
       with tf.variable_scope('layer1'):
         conv1 = tf.layers.conv2d(inputs=X, 
                                  filters=32, 
@@ -26,7 +30,8 @@ class MNIST_CNN:
                                         pool_size=(2, 2), 
                                         padding='SAME', 
                                         strides=2)
-        
+      
+      # Layer #2 -> Convolution + ReLU + MaxPooling  
       with tf.variable_scope('layer2'):
         conv2 = tf.layers.conv2d(inputs=pool1, 
                                  filters=64, 
@@ -39,7 +44,8 @@ class MNIST_CNN:
                                         pool_size=(2, 2), 
                                         padding='SAME', 
                                         strides=2)
-                                        
+      
+      # Layer #3 -> Convolution + ReLU + MaxPooling                                  
       with tf.variable_scope('layer3'):
         conv3 = tf.layers.conv2d(inputs=pool2, 
                                  filters=128, 
@@ -52,7 +58,8 @@ class MNIST_CNN:
                                         pool_size=(2, 2), 
                                         padding='SAME', 
                                         strides=2)
-        
+      
+      # Layer #4 -> Fully Connected + ReLU  
       with tf.variable_scope('layer4'):
         flat = tf.reshape(pool3, (-1, 4 * 4 * 128))
         
@@ -60,6 +67,7 @@ class MNIST_CNN:
                                  activation=tf.nn.relu, 
                                  use_bias=False)
       
+      # Layer #5 -> Logits + SoftMax 
       with tf.variable_scope('layer5'):
         logits = tf.layers.dense(inputs=dense, units=10, 
                                  use_bias=False)
