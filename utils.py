@@ -4,35 +4,62 @@ import numpy as np
 
 DATA_PATH = './mnist.pkl.gz'
 
-# Load MNIST encoded as One-Hot labels
-def load_data():
-	try:
-		with gzip.open(DATA_PATH, 'rb') as f:
-			data = pickle.load(f, encoding='bytes')
-	except FileNotFoundError:
-		print('Dataset not found!')
-		exit()
+# Data Loader for MNIST 
+class MNISTLoader:
 
-	train_set, val_set, test_set = data
-	x_train, y_train = train_set
-	x_val, y_val = val_set
-	x_test, y_test = test_set
+	def __init__(self, loc=DATA_PATH):
+		self.loc = loc
 
-	# One-Hot labelling
-	I = np.eye(10)
-	y_train = I[y_train]
-	y_val = I[y_val]
-	y_test = I[y_test]
+	# Load MNIST encoded as One-Hot labels	
+	def __call__(self):
+		try:
+			with gzip.open(DATA_PATH, 'rb') as f:
+				data = pickle.load(f, encoding='bytes')
+		except FileNotFoundError:
+			print('Dataset not found!')
+			exit()
 
-	return (x_train, y_train), (x_val, y_val), (x_test, y_test)
+		train_set, validation_set, test_set = data
+
+		# Split into train, validation and test
+		self.xtrain, self.ytrain = train_set
+		self.xvalidation, self.yvalidation = validation_set
+		self.xtest, self.ytest = test_set
+
+		# One-Hot labelling
+		I = np.eye(10)
+		self.ytrain = I[self.ytrain]
+		self.yvalidation = I[self.yvalidation]
+		self.ytest = I[self.ytest]
+
+	# Helper functions
+	@property
+	def train(self):
+		return self.xtrain, self.ytrain
+
+	@property
+	def validation(self):
+		return self.xvalidation, self.yvalidation
+
+	@property
+	def test(self):
+		return self.xtest, self.ytest
+
 
 if __name__ == '__main__':
-	(x_train, y_train), (x_val, y_val), (x_test, y_test) = load_data()
-	print('x_train shape', x_train.shape)
-	print('y_train shape', y_train.shape)
-	
-	print('x_val shape', x_val.shape)
-	print('y_val shape', y_val.shape)	
+	dl = MNISTLoader()
+	dl()
 
-	print('x_test shape', x_test.shape)
-	print('y_test shape', y_test.shape)	
+	train = dl.train
+	validation = dl.validation
+	test = dl.test
+
+	print('xtrain shape', train[0].shape)
+	print('ytrain shape', train[1].shape)
+
+	print('xvalidation shape', validation[0].shape)
+	print('yvalidation shape', validation[1].shape)
+	
+	print('xtest shape', test[0].shape)
+	print('ytest shape', test[1].shape)	
+
