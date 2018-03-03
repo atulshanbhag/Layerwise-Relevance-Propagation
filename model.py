@@ -14,7 +14,7 @@ class MNIST_CNN:
       with tf.variable_scope('input_layer'):
         X = tf.reshape(images, (-1, 28, 28, 1))
         
-      with tf.variable_scope('block1'):
+      with tf.variable_scope('layer1'):
         conv1 = tf.layers.conv2d(inputs=X, 
                                  filters=32, 
                                  kernel_size=(3, 3), 
@@ -27,7 +27,7 @@ class MNIST_CNN:
                                         padding='SAME', 
                                         strides=2)
         
-      with tf.variable_scope('block2'):
+      with tf.variable_scope('layer2'):
         conv2 = tf.layers.conv2d(inputs=pool1, 
                                  filters=64, 
                                  kernel_size=(3, 3), 
@@ -40,7 +40,7 @@ class MNIST_CNN:
                                         padding='SAME', 
                                         strides=2)
                                         
-      with tf.variable_scope('block3'):
+      with tf.variable_scope('layer3'):
         conv3 = tf.layers.conv2d(inputs=pool2, 
                                  filters=128, 
                                  kernel_size=(3, 3), 
@@ -53,14 +53,14 @@ class MNIST_CNN:
                                         padding='SAME', 
                                         strides=2)
         
-      with tf.variable_scope('dense1'):
+      with tf.variable_scope('layer4'):
         flat = tf.reshape(pool3, (-1, 4 * 4 * 128))
         
         dense = tf.layers.dense(inputs=flat, units=512, 
                                  activation=tf.nn.relu, 
                                  use_bias=False)
       
-      with tf.variable_scope('dense2'):
+      with tf.variable_scope('layer5'):
         logits = tf.layers.dense(inputs=dense, units=10, 
                                  use_bias=False)
         preds = tf.nn.softmax(logits)
