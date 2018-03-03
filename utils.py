@@ -10,7 +10,8 @@ def load_data():
 		with gzip.open(DATA_PATH, 'rb') as f:
 			data = pickle.load(f, encoding='bytes')
 	except FileNotFoundError:
-		print('Dataset does not exist!')
+		print('Dataset not found!')
+		exit()
 
 	train_set, val_set, test_set = data
 	x_train, y_train = train_set

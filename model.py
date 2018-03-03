@@ -6,6 +6,7 @@ class MNIST_CNN:
   def __init__(self, name='MNIST'):
     self.name = name
   
+  # Compile model
   def __call__(self, images, reuse=False):
     with tf.variable_scope(self.name) as scope:
       
@@ -73,12 +74,13 @@ class MNIST_CNN:
                                  use_bias=False)
         preds = tf.nn.softmax(logits)
         
-      params = [X, conv1, pool1, conv2, pool2, conv3, pool3, flat, dense, preds]
-      return params, logits
+    params = [X, conv1, pool1, conv2, pool2, conv3, pool3, flat, dense, preds]
+    return params, logits
     
-    @property
-    def vars(self):
-      return tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope=self.name)
+  # Trainable params
+  @property
+  def params(self):
+    return tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope=self.name)
     
       
       
