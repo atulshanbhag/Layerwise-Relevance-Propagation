@@ -7,7 +7,11 @@ N_EPOCHS = 15
 BATCH_SIZE = 100
 
 # Load data
-(x_train, y_train), (x_val, y_val), (x_test, y_test) = load_data()
+mnist = MNISTLoader()
+mnist()
+xtrain, ytrain = mnist.train
+xvalidion, yvalidation = mnist.validation
+xtest, ytest = mnist.test
 
 # Create a scope for the classifier
 with tf.name_scope('MNIST_CNN'):
