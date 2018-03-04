@@ -31,8 +31,8 @@ with tf.name_scope('MNIST_CNN'):
 	# Cross-Entropy Loss
 	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits, labels=y))
 	
-	# RSMProp optimizer with default parameters
-	optimizer = tf.train.RMSPropOptimizer(learning_rate=0.01).minimize(cost, var_list=model.params)
+	# Adam Optimizer
+	optimizer = tf.train.AdamOptimizer().minimize(cost, var_list=model.params)
 
 	# Retrieve model predictions and calculate accuracy
 	preds = tf.equal(tf.argmax(logits, axis=1), tf.argmax(y, axis=1))
