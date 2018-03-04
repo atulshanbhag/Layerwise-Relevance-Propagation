@@ -78,7 +78,8 @@ for epoch in range(n_epochs):
 		 print('\rEpoch {0:>3} {1} {2:3.0f}% Cost {3:6.4f} Accuracy {4:6.4f}'.format('#' + str(epoch + 1), 
 						print_str, completion * 100, avg_cost / (batch + 1), avg_accuracy / (batch + 1)), end='')
 	print()
-	saver.save(sess, chkptdir)
+	chkpt = '{0}epoch_{1:03d}.ckpt'.format(chkptdir, epoch + 1)
+	saver.save(sess, chkpt)
 
 print('Accuracy: {0;.4f}'.format(sess.run(accuracy, feed_dict={X: x_train, y: y_train})))
 sess.close()    
