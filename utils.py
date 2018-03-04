@@ -47,28 +47,28 @@ class MNISTLoader:
 		train_set, validation_set, test_set = data
 
 		# Split into train, validation and test
-		self.xtrain, self.ytrain = train_set
-		self.xvalidation, self.yvalidation = validation_set
-		self.xtest, self.ytest = test_set
+		self.x_train, self.y_train = train_set
+		self.x_validation, self.y_validation = validation_set
+		self.x_test, self.y_test = test_set
 
 		# One-Hot labelling
 		I = np.eye(10)
-		self.ytrain = I[self.ytrain]
-		self.yvalidation = I[self.yvalidation]
-		self.ytest = I[self.ytest]
+		self.y_train = I[self.y_train]
+		self.y_validation = I[self.y_validation]
+		self.y_test = I[self.y_test]
 
 	# Helper functions
 	@property
 	def train(self):
-		return self.xtrain, self.ytrain
+		return self.x_train, self.y_train
 
 	@property
 	def validation(self):
-		return self.xvalidation, self.yvalidation
+		return self.x_validation, self.y_validation
 
 	@property
 	def test(self):
-		return self.xtest, self.ytest
+		return self.x_test, self.y_test
 
 
 if __name__ == '__main__':
@@ -84,12 +84,12 @@ if __name__ == '__main__':
 		x, y = next(dg)
 		print(i, x.shape, y.shape)
 
-	print('xtrain shape', train[0].shape)
-	print('ytrain shape', train[1].shape)
+	print('x_train shape', train[0].shape)
+	print('y_train shape', train[1].shape)
 
-	print('xvalidation shape', validation[0].shape)
-	print('yvalidation shape', validation[1].shape)
+	print('x_validation shape', validation[0].shape)
+	print('y_validation shape', validation[1].shape)
 	
-	print('xtest shape', test[0].shape)
-	print('ytest shape', test[1].shape)	
+	print('x_test shape', test[0].shape)
+	print('y_test shape', test[1].shape)	
 
