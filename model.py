@@ -67,14 +67,16 @@ class MNIST_CNN:
         dense = tf.layers.dense(inputs=flat, units=512, 
                                  activation=tf.nn.relu, 
                                  use_bias=False)
+
+        dropout = tf.nn.dropout(dense, keep_prob=0.5)
       
       # Layer #5 -> Logits + SoftMax 
       with tf.variable_scope('layer5'):
-        logits = tf.layers.dense(inputs=dense, units=10, 
+        logits = tf.layers.dense(inputs=dropout, units=10, 
                                  use_bias=False)
         preds = tf.nn.softmax(logits)
         
-    params = [X, conv1, pool1, conv2, pool2, conv3, pool3, flat, dense, preds]
+    params = [X, conv1, pool1, conv2, pool2, conv3, pool3, flat, dense, dropout, preds]
     return params, logits
     
   # Trainable params
