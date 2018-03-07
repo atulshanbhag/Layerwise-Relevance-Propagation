@@ -24,9 +24,8 @@ with tf.name_scope('MNIST_CNN'):
 		tf.add_to_collection('DTD', p)
 
 	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits, labels=y))
-	
 	optimizer = tf.train.AdamOptimizer().minimize(cost, var_list=model.params)
-
+	
 	preds = tf.equal(tf.argmax(logits, axis=1), tf.argmax(y, axis=1))
 	accuracy = tf.reduce_mean(tf.cast(preds, tf.float32))
 
