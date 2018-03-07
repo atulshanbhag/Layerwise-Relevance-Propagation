@@ -4,7 +4,6 @@ import numpy as np
 
 DATA_PATH = './mnist.pkl.gz'
 
-# Batch Loader for Data
 class DataGenerator:
 
 	def __init__(self, X, y, batch_size):
@@ -27,15 +26,13 @@ class DataGenerator:
 		start = self.batch_index * self.batch_size
 		end = min(self.num_samples, start + self.batch_size)
 		self.batch_index += 1
-		return self.X[start:end], self.y[start:end]	
+		return self.X[start: end], self.y[start: end]	
 
-# Data Loader for MNIST 
 class MNISTLoader:
 
 	def __init__(self, loc=DATA_PATH):
 		self.loc = loc
 
-	# Load MNIST encoded as One-Hot labels	
 	def __call__(self):
 		try:
 			with gzip.open(DATA_PATH, 'rb') as f:
@@ -46,18 +43,15 @@ class MNISTLoader:
 
 		train_set, validation_set, test_set = data
 
-		# Split into train, validation and test
 		self.x_train, self.y_train = train_set
 		self.x_validation, self.y_validation = validation_set
 		self.x_test, self.y_test = test_set
 
-		# One-Hot labelling
 		I = np.eye(10)
 		self.y_train = I[self.y_train]
 		self.y_validation = I[self.y_validation]
 		self.y_test = I[self.y_test]
 
-	# Helper functions
 	@property
 	def train(self):
 		return self.x_train, self.y_train
