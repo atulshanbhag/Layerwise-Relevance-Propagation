@@ -5,6 +5,7 @@ import numpy as np
 DATA_PATH = './mnist.pkl.gz'
 
 class DataGenerator:
+	
 	def __init__(self, X, y, batch_size):
 		assert(X.shape[0] == y.shape[0])
 		self.X = X
@@ -51,6 +52,11 @@ class MNISTLoader:
 		self.y_validation = I[self.y_validation]
 		self.y_test = I[self.y_test]
 
+	def get_samples(self, n_samples, digit):
+		data = [self.train, self.validation, self.test][np.random.choice(np.arange(3))]
+		samples_indices = np.random.choice(np.argwhere(np.argmax(data[1], axis=1) == digit).flatten(), size=n_samples)
+		return data[0][samples_indices]
+
 	@property
 	def train(self):
 		return self.x_train, self.y_train
@@ -85,4 +91,6 @@ if __name__ == '__main__':
 	
 	print('x_test shape', test[0].shape)
 	print('y_test shape', test[1].shape)	
+
+	dl.get_samples(1, 0)
 
