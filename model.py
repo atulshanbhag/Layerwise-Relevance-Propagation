@@ -34,11 +34,11 @@ class MNIST_CNN:
 
       with tf.variable_scope('conv1'):
         w_conv1, b_conv1, conv1 = self.convlayer(images, [3, 3, 1, 32], 'conv1')
-        params += [w_conv1, b_conv1]
+        params += [conv1, ]
 
       with tf.variable_scope('conv2'):
         w_conv2, b_conv2, conv2 = self.convlayer(conv1, [3, 3, 32, 64], 'conv2')
-        params += [w_conv2, b_conv2]
+        params += [conv2, ]
 
       with tf.variable_scope('max_pool1'):
         max_pool1 = tf.nn.max_pool(conv2, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME', name='max_pool1')
@@ -53,7 +53,7 @@ class MNIST_CNN:
       with tf.variable_scope('fc1'):
         n_in = int(flatten.get_shape()[1])
         w_fc1, b_fc1, fc1 = self.fclayer(flatten, [n_in, 512], 'fc1')
-        params += [w_fc1, b_fc1]
+        params += [fc1, ]
 
       with tf.variable_scope('dropout2'):
         dropout2 = tf.nn.dropout(fc1, keep_prob=0.5, name='dropout2')
