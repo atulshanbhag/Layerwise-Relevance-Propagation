@@ -5,7 +5,6 @@ import numpy as np
 DATA_PATH = './mnist.pkl.gz'
 
 class DataGenerator:
-
 	def __init__(self, X, y, batch_size):
 		assert(X.shape[0] == y.shape[0])
 		self.X = X
