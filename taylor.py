@@ -6,8 +6,7 @@ import matplotlib.pyplot as plt
 
 logdir = './logs/'
 chkpt = './logs/model.ckpt'
-# digit = np.random.choice(10)
-digit = 7
+digit = np.random.choice(10)
 
 mnist = MNISTLoader()
 mnist()
