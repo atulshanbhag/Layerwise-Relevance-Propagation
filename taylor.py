@@ -41,7 +41,7 @@ with tf.Session() as sess:
   R[1] = activations[1] * c
   
   w, b = act_weights['fc1']
-  w_pos = tf.maximum(0.0, w)
+  w_pos = tf.maximum(0.0, w) 
   z = tf.nn.bias_add(tf.matmul(activations[2], w_pos), b) + 1e-10
   s = R[1] / z
   c = tf.matmul(s, tf.transpose(w_pos))
