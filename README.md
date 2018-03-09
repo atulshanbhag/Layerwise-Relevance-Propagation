@@ -19,6 +19,12 @@ Implementation of Deep Taylor Decomposition for heatmapping "deep" layers, using
   <img src="results/9.jpg" width="150" />
 </p>
 
+## Instructions
+
+* Run `train.py` to train model. 
+* Weights will be saved in `logs/`. 
+* Run `taylor.py` for Deep Taylor Decomposition.
+
 ## Reference
-1. [Explaining NonLinear Classification Decisions with Deep Taylor Decomposition](https://arxiv.org/abs/1512.02479)
-2. [Heatmapping.org](http://heatmapping.org/)
+* [Explaining NonLinear Classification Decisions with Deep Taylor Decomposition](https://arxiv.org/abs/1512.02479)
+* [Heatmapping.org](http://heatmapping.org/)
