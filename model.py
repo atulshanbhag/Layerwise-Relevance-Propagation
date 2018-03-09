@@ -26,34 +26,32 @@ class MNIST_CNN:
       if reuse:
         scope.reuse_variables()
       
-      params = []
+      activations = []
 
       with tf.variable_scope('input'):
         images = tf.reshape(images, [-1, 28, 28, 1], name='input')
-        params += [images, ]
+        activations += [images, ]
 
       with tf.variable_scope('conv1'):
         w_conv1, b_conv1, conv1 = self.convlayer(images, [3, 3, 1, 32], 'conv1')
-        params += [conv1, ]
+        activations += [conv1, ]
 
       with tf.variable_scope('conv2'):
         w_conv2, b_conv2, conv2 = self.convlayer(conv1, [3, 3, 32, 64], 'conv2')
-        params += [conv2, ]
+        activations += [conv2, ]
 
       with tf.variable_scope('max_pool1'):
         max_pool1 = tf.nn.max_pool(conv2, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME', name='max_pool1')
-        params += [max_pool1, ]
-
-      with tf.variable_scope('dropout1'):
-        dropout1 = tf.nn.dropout(max_pool1, keep_prob=0.25, name='dropout1')
+        activations += [max_pool1, ]
 
       with tf.variable_scope('flatten'):
-        flatten = tf.contrib.layers.flatten(dropout1)
+        flatten = tf.contrib.layers.flatten(max_pool1)
+        activations += [flatten, ]
 
       with tf.variable_scope('fc1'):
         n_in = int(flatten.get_shape()[1])
         w_fc1, b_fc1, fc1 = self.fclayer(flatten, [n_in, 512], 'fc1')
-        params += [fc1, ]
+        activations += [fc1, ]
 
       with tf.variable_scope('dropout2'):
         dropout2 = tf.nn.dropout(fc1, keep_prob=0.5, name='dropout2')
@@ -62,9 +60,9 @@ class MNIST_CNN:
         w_fc2, b_fc2 = self.fclayer(dropout2, [512, 10], 'fc2', prop=False)
         logits = tf.nn.bias_add(tf.matmul(dropout2, w_fc2), b_fc2, name='logits')
         preds = tf.nn.softmax(logits, name='output')
-        params += [preds, ]
+        activations += [preds, ]
 
-      return params, logits
+      return activations, logits
     
   @property
   def params(self):
