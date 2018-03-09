@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 logdir = './logs/'
 chkpt = './logs/model.ckpt'
-digit = 9
+digit = 5
 
 mnist = MNISTLoader()
 mnist()
@@ -67,8 +67,16 @@ with tf.Session() as sess:
   c = tf.nn.conv2d_backprop_input(tf.shape(activations[6]), w_pos, s, [1, 1, 1, 1], padding='SAME')
   R[6] = activations[6] * c
 
-  img = sess.run(R[6], feed_dict={X: samples})[0].reshape(28, 28)
+  img = samples[0].reshape(28, 28)
+  heatmap = sess.run(R[6], feed_dict={X: samples})[0].reshape(28, 28)
+  
+  plt.subplot(121)
   plt.axis('off')
   plt.imshow(img, cmap='Reds', interpolation='nearest')
+
+  plt.subplot(122)
+  plt.axis('off')
+  plt.imshow(heatmap, cmap='Reds', interpolation='nearest')
+  
   plt.show()
 
