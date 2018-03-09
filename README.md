@@ -1,9 +1,9 @@
 # Deep-Taylor-Decomposition
 Implementation of Deep Taylor Decomposition for heatmapping "deep" layers, using Tensorflow.
 
-# Results
+## Results
 
-## MNIST
+### MNIST
 <p float="left">
   <img src="results/0.jpg" width="150" />
   <img src="results/1.jpg" width="150" /> 
