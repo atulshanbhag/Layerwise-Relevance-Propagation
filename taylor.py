@@ -1,11 +1,12 @@
 from utils import *
+import numpy as np
 import tensorflow as tf
 from tensorflow.python.ops import gen_nn_ops
 import matplotlib.pyplot as plt
 
 logdir = './logs/'
 chkpt = './logs/model.ckpt'
-digit = 5
+digit = np.random.choice(10)
 
 mnist = MNISTLoader()
 mnist()
@@ -17,7 +18,7 @@ with tf.Session() as sess:
 
   weights = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope='MNIST_CNN')
   activations = tf.get_collection('DeepTaylorDecomposition')
-	
+  
   X = activations[0]
 
   act_weights = {}
@@ -30,11 +31,11 @@ with tf.Session() as sess:
         act_weights[name].append(wt)
 
   activations = activations[:0:-1]
-  R = [activations[0][:, digit, None], ] + [None, ] * 6
+  R = [activations[0], ] + [None, ] * 6
 
   w, b = act_weights['output']
-  w_pos = tf.maximum(0.0, w[:, digit, None])
-  z = tf.nn.bias_add(tf.matmul(activations[1], w_pos), b[digit, None]) + 1e-10
+  w_pos = tf.maximum(0.0, w)
+  z = tf.nn.bias_add(tf.matmul(activations[1], w_pos), b) + 1e-10
   s = R[0] / z
   c = tf.matmul(s, tf.transpose(w_pos))
   R[1] = activations[1] * c
