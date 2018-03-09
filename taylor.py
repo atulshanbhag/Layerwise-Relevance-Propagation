@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 
 logdir = './logs/'
 chkpt = './logs/model.ckpt'
-digit = np.random.choice(10)
+# digit = np.random.choice(10)
+digit = 7
 
 mnist = MNISTLoader()
 mnist()
@@ -75,8 +76,8 @@ with tf.Session() as sess:
   ax = fig.add_subplot(111)
   ax.axis('off')
   ax.set_title(str(digit))
-  ax.imshow(heatmap, cmap='Reds', interpolation='bilinear')
-  fig.savefig('img.jpg')
+  ax.imshow(heatmap, cmap='YlOrRd', interpolation='bilinear')
+  fig.savefig('./results/{0}.jpg'.format(digit))
 
   plt.show()
 
