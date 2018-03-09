@@ -69,8 +69,9 @@ with tf.Session() as sess:
   R[6] = activations[6] * c
 
   heatmap = sess.run(R[6], feed_dict={X: samples})[0].reshape(28, 28)
+  heatmap /= heatmap.max()
   
-  fig = plt.figure(figsize=(2, 2))
+  fig = plt.figure()
   ax = fig.add_subplot(111)
   ax.axis('off')
   ax.set_title(str(digit))
