@@ -75,7 +75,8 @@ with tf.Session() as sess:
   ax = fig.add_subplot(111)
   ax.axis('off')
   ax.set_title(str(digit))
-  ax.imshow(heatmap, cmap='Reds', interpolation='nearest')
-  
+  ax.imshow(heatmap, cmap='Reds', interpolation='bilinear')
+  fig.savefig('img.jpg')
+
   plt.show()
 
