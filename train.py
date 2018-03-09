@@ -22,11 +22,11 @@ class Trainer:
 			self.X = tf.placeholder(tf.float32, [None, 784], name='X')
 			self.y = tf.placeholder(tf.float32, [None, 10], name='y')
 
-			self.params, self.logits = self.model(self.X)
+			self.activations, self.logits = self.model(self.X)
 
 			tf.add_to_collection('DeepTaylorDecomposition', self.X)
-			for p in self.params:
-				tf.add_to_collection('DeepTaylorDecomposition', p)
+			for act in self.activations:
+				tf.add_to_collection('DeepTaylorDecomposition', act)
 
 			self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=self.logits, labels=self.y))
 			self.optimizer = tf.train.AdamOptimizer().minimize(self.cost, var_list=self.model.params)
