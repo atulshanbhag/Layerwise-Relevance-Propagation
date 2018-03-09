@@ -37,14 +37,14 @@ with tf.Session() as sess:
   w_pos = tf.maximum(0.0, w)
   z = tf.nn.bias_add(tf.matmul(activations[1], w_pos), b) + 1e-10
   s = R[0] / z
-  c = tf.matmul(s, tf.transpose(w_pos))
+  c = gen_nn_ops.bias_add_grad(tf.matmul(s, tf.transpose(w_pos)))
   R[1] = activations[1] * c
   
   w, b = act_weights['fc1']
   w_pos = tf.maximum(0.0, w)
   z = tf.nn.bias_add(tf.matmul(activations[2], w_pos), b) + 1e-10
   s = R[1] / z
-  c = tf.matmul(s, tf.transpose(w_pos))
+  c = gen_nn_ops.bias_add_grad(tf.matmul(s, tf.transpose(w_pos)))
   R[2] = activations[2] * c
 
   R[3] = tf.reshape(R[2], [-1, 14, 14, 64])
@@ -58,26 +58,23 @@ with tf.Session() as sess:
   w_pos = tf.maximum(0.0, w)
   z = tf.nn.bias_add(tf.nn.conv2d(activations[5], w_pos, [1, 1, 1, 1], padding='SAME'), b) + 1e-10
   s = R[4] / z
-  c = tf.nn.conv2d_backprop_input(tf.shape(activations[5]), w_pos, s, [1, 1, 1, 1], padding='SAME')
+  c = gen_nn_ops.bias_add_grad(tf.nn.conv2d_backprop_input(tf.shape(activations[5]), w_pos, s, [1, 1, 1, 1], padding='SAME'))
   R[5] = activations[5] * c
 
   w, b = act_weights['conv1']
   w_pos = tf.maximum(0.0, w)
   z = tf.nn.bias_add(tf.nn.conv2d(activations[6], w_pos, [1, 1, 1, 1], padding='SAME'), b) + 1e-10
   s = R[5] / z
-  c = tf.nn.conv2d_backprop_input(tf.shape(activations[6]), w_pos, s, [1, 1, 1, 1], padding='SAME')
+  c = gen_nn_ops.bias_add_grad(tf.nn.conv2d_backprop_input(tf.shape(activations[6]), w_pos, s, [1, 1, 1, 1], padding='SAME'))
   R[6] = activations[6] * c
 
-  img = samples[0].reshape(28, 28)
   heatmap = sess.run(R[6], feed_dict={X: samples})[0].reshape(28, 28)
   
-  plt.subplot(121)
-  plt.axis('off')
-  plt.imshow(img, cmap='Reds', interpolation='nearest')
-
-  plt.subplot(122)
-  plt.axis('off')
-  plt.imshow(heatmap, cmap='Reds', interpolation='nearest')
+  fig = plt.figure(figsize=(2, 2))
+  ax = fig.add_subplot(111)
+  ax.axis('off')
+  ax.set_title(str(digit))
+  ax.imshow(heatmap, cmap='Reds', interpolation='nearest')
   
   plt.show()
 
