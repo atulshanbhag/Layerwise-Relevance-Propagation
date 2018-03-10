@@ -27,4 +27,4 @@ Implementation of Deep Taylor Decomposition for heatmapping "deep" layers, using
 
 ## Reference
 * [Explaining NonLinear Classification Decisions with Deep Taylor Decomposition](https://arxiv.org/abs/1512.02479)
-* [Heatmapping.org](http://heatmapping.org/)
+* [A Quick Introduction to Deep Taylor Decomposition](http://heatmapping.org/deeptaylor/)
