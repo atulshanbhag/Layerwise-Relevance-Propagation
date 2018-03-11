@@ -20,9 +20,13 @@ class DataGenerator:
 	def __iter__(self):
 		return self
 
-	def __next__(self):
+	def __next__(self, shuffle=True):
 		if self.batch_index == self.num_batches:
 			self.batch_index = 0
+			if shuffle:
+				indices = np.random.permutation(self.num_samples)
+				self.X = self.X[indices]
+				self.y = self.y[indices]
 		start = self.batch_index * self.batch_size
 		end = min(self.num_samples, start + self.batch_size)
 		self.batch_index += 1
@@ -32,8 +36,9 @@ class MNISTLoader:
 
 	def __init__(self, loc=DATA_PATH):
 		self.loc = loc
+		self.run()
 
-	def __call__(self):
+	def run(self):
 		try:
 			with gzip.open(DATA_PATH, 'rb') as f:
 				data = pickle.load(f, encoding='bytes')
@@ -72,7 +77,6 @@ class MNISTLoader:
 
 if __name__ == '__main__':
 	dl = MNISTLoader()
-	dl()
 
 	train = dl.train
 	validation = dl.validation
@@ -92,5 +96,5 @@ if __name__ == '__main__':
 	print('x_test shape', test[0].shape)
 	print('y_test shape', test[1].shape)	
 
-	dl.get_samples(1, 0)
+	print(dl.get_samples(1, 0).shape)
 

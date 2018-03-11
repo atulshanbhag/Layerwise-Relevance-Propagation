@@ -11,7 +11,6 @@ class Trainer:
 
 	def __init__(self):
 		self.dataloader = MNISTLoader()
-		self.dataloader()
 		
 		self.x_train, self.y_train = self.dataloader.train
 		self.x_validation, self.y_validation = self.dataloader.validation
