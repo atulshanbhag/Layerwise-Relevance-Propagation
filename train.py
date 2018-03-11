@@ -28,7 +28,8 @@ class Trainer:
 			for act in self.activations:
 				tf.add_to_collection('DeepTaylorDecomposition', act)
 
-			self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=self.logits, labels=self.y))
+			self.l2_loss = tf.add_n([tf.nn.l2_loss(p) for p in self.model.params if 'b' not in p.name]) * 0.0001
+			self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=self.logits, labels=self.y)) + self.l2_loss
 			self.optimizer = tf.train.AdamOptimizer().minimize(self.cost, var_list=self.model.params)
 
 			self.preds = tf.equal(tf.argmax(self.logits, axis=1), tf.argmax(self.y, axis=1))
@@ -64,7 +65,7 @@ class Trainer:
 		for batch in range(n_batches):
 			x_batch, y_batch = next(self.train_batch)
 			_, batch_cost, batch_accuracy, summ = sess.run([self.optimizer, self.cost, self.accuracy, self.summary], 
-				                                              feed_dict={self.X: x_batch, self.y: y_batch})
+																											feed_dict={self.X: x_batch, self.y: y_batch})
 			avg_cost += batch_cost
 			avg_accuracy += batch_accuracy
 			self.file_writer.add_summary(summ, epoch * n_batches + batch)
