@@ -25,6 +25,10 @@ Implementation of Deep Taylor Decomposition for heatmapping "deep" layers, using
 * Weights will be saved in `logs/`. 
 * Run `taylor.py` for Deep Taylor Decomposition.
 
+NOTE: If using Tensorflow version < `1.5.0`, you need to change 
+`tf.nn.softmax_cross_entropy_with_logits_v2` to `tf.nn.softmax_cross_entropy_with_logits`.
+
+
 ## Reference
 * [Explaining NonLinear Classification Decisions with Deep Taylor Decomposition](https://arxiv.org/abs/1512.02479)
 * [A Quick Introduction to Deep Taylor Decomposition](http://heatmapping.org/deeptaylor/)
