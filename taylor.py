@@ -12,7 +12,6 @@ class DeepTaylorDecomposition:
 
   def __init__(self):
     self.dataloader = MNISTLoader()
-    self.act_weights = None
     self.epsilon = 1e-10
 
     with tf.Session() as sess:
@@ -24,15 +23,14 @@ class DeepTaylorDecomposition:
 
     self.X = self.activations[0]
 
-    if not self.act_weights:
-      self.act_weights = {}
-      for act in self.activations[2:]:
-        for wt in weights:
-          name = act.name.split('/')[2]
-          if name == wt.name.split('/')[2]:
-            if name not in self.act_weights:
-              self.act_weights[name] = []
-            self.act_weights[name].append(wt)
+    self.act_weights = {}
+    for act in self.activations[2:]:
+      for wt in weights:
+        name = act.name.split('/')[2]
+        if name == wt.name.split('/')[2]:
+          if name not in self.act_weights:
+            self.act_weights[name] = []
+          self.act_weights[name].append(wt)
 
     self.activations = self.activations[:0:-1]
     self.relevances = self.get_relevances()
