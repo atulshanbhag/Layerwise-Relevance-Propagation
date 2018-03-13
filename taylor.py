@@ -29,8 +29,7 @@ class DeepTaylorDecomposition:
         name = act.name.split('/')[2]
         if name == wt.name.split('/')[2]:
           if name not in self.act_weights:
-            self.act_weights[name] = []
-          self.act_weights[name].append(wt)
+            self.act_weights[name] = wt
 
     self.activations = self.activations[:0:-1]
     self.relevances = self.get_relevances()
@@ -54,7 +53,7 @@ class DeepTaylorDecomposition:
     return relevances
 
   def backprop_fc(self, name, activation, relevance):
-    w, _ = self.act_weights[name]
+    w = self.act_weights[name]
     w_pos = tf.maximum(0.0, w)
     z = tf.matmul(activation, w_pos) + self.epsilon
     s = relevance / z
@@ -73,7 +72,7 @@ class DeepTaylorDecomposition:
     return c * activation
 
   def backprop_conv2d(self, name, activation, relevance, strides=[1, 1, 1, 1]):
-    w, _ = self.act_weights[name]
+    w = self.act_weights[name]
     w_pos = tf.maximum(0.0, w)
     z = tf.nn.conv2d(activation, w_pos, strides, padding='SAME') + self.epsilon
     s = relevance / z
