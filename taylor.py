@@ -54,9 +54,9 @@ class DeepTaylorDecomposition:
     return relevances
 
   def backprop_fc(self, name, activation, relevance):
-    w, b = self.act_weights[name]
+    w, _ = self.act_weights[name]
     w_pos = tf.maximum(0.0, w)
-    z = tf.nn.bias_add(tf.matmul(activation, w_pos), b) + self.epsilon
+    z = tf.matmul(activation, w_pos) + self.epsilon
     s = relevance / z
     c = tf.matmul(s, tf.transpose(w_pos))
     return c * activation
@@ -73,9 +73,9 @@ class DeepTaylorDecomposition:
     return c * activation
 
   def backprop_conv2d(self, name, activation, relevance, strides=[1, 1, 1, 1]):
-    w, b = self.act_weights[name]
+    w, _ = self.act_weights[name]
     w_pos = tf.maximum(0.0, w)
-    z = tf.nn.bias_add(tf.nn.conv2d(activation, w_pos, strides, padding='SAME'), b) + self.epsilon
+    z = tf.nn.conv2d(activation, w_pos, strides, padding='SAME') + self.epsilon
     s = relevance / z
     c = tf.nn.conv2d_backprop_input(tf.shape(activation), w_pos, s, strides, padding='SAME')
     return c * activation
@@ -92,9 +92,20 @@ class DeepTaylorDecomposition:
     
     return heatmap
 
+  def test(self):
+    samples = self.dataloader.get_samples(n_samples=1, digit=np.random.choice(10))
+    
+    with tf.Session() as sess:
+      saver = tf.train.import_meta_graph('{0}.meta'.format(chkpt))
+      saver.restore(sess, tf.train.latest_checkpoint(logdir))
+      
+      R = sess.run(self.relevances, feed_dict={self.X: samples})
+      for r in R:
+        print(r.sum())
 
 if __name__ == '__main__':
   dtd = DeepTaylorDecomposition()
+  dtd.test()
 
   for digit in range(10):
     heatmap = dtd.get_heatmap(digit)
