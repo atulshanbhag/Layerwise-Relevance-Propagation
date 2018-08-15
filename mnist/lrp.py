@@ -8,7 +8,7 @@ logdir = './logs/'
 chkpt = './logs/model.ckpt'
 resultsdir = './results/'
 
-class DeepTaylorDecomposition:
+class LayerwiseRelevancePropagation:
 
   def __init__(self):
     self.dataloader = MNISTLoader()
@@ -19,7 +19,7 @@ class DeepTaylorDecomposition:
       saver.restore(sess, tf.train.latest_checkpoint(logdir))
 
       weights = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope='MNIST_CNN')
-      self.activations = tf.get_collection('DeepTaylorDecomposition')
+      self.activations = tf.get_collection('LayerwiseRelevancePropagation')
 
     self.X = self.activations[0]
 
@@ -103,11 +103,11 @@ class DeepTaylorDecomposition:
         print(r.sum())
 
 if __name__ == '__main__':
-  dtd = DeepTaylorDecomposition()
-  dtd.test()
+  lrp = LayerwiseRelevancePropagation()
+  lrp.test()
 
   for digit in range(10):
-    heatmap = dtd.get_heatmap(digit)
+    heatmap = lrp.get_heatmap(digit)
 
     fig = plt.figure()
     ax = fig.add_subplot(111)

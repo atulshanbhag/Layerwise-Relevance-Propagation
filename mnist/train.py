@@ -23,9 +23,9 @@ class Trainer:
 
 			self.activations, self.logits = self.model(self.X)
 
-			tf.add_to_collection('DeepTaylorDecomposition', self.X)
+			tf.add_to_collection('LayerwiseRelevancePropagation', self.X)
 			for act in self.activations:
-				tf.add_to_collection('DeepTaylorDecomposition', act)
+				tf.add_to_collection('LayerwiseRelevancePropagation', act)
 
 			self.l2_loss = tf.add_n([tf.nn.l2_loss(p) for p in self.model.params if 'b' not in p.name]) * 0.001
 			self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=self.logits, labels=self.y)) + self.l2_loss
