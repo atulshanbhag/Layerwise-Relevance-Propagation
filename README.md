@@ -5,18 +5,18 @@ Implementation of Layerwise Relevance Propagation for heatmapping "deep" layers,
 
 ### MNIST
 <p float="left">
-  <img src="results/0.jpg" width="150" />
-  <img src="results/1.jpg" width="150" /> 
-  <img src="results/2.jpg" width="150" />
-  <img src="results/3.jpg" width="150" />
-  <img src="results/4.jpg" width="150" />
+  <img src="mnist/results/0.jpg" width="150" />
+  <img src="mnist/results/1.jpg" width="150" /> 
+  <img src="mnist/results/2.jpg" width="150" />
+  <img src="mnist/results/3.jpg" width="150" />
+  <img src="mnist/results/4.jpg" width="150" />
 </p>
 <p float="left">
-  <img src="results/5.jpg" width="150" />
-  <img src="results/6.jpg" width="150" /> 
-  <img src="results/7.jpg" width="150" />
-  <img src="results/8.jpg" width="150" />
-  <img src="results/9.jpg" width="150" />
+  <img src="mnist/results/5.jpg" width="150" />
+  <img src="mnist/results/6.jpg" width="150" /> 
+  <img src="mnist/results/7.jpg" width="150" />
+  <img src="mnist/results/8.jpg" width="150" />
+  <img src="mnist/results/9.jpg" width="150" />
 </p>
 
 ## Instructions
