@@ -1,8 +1,9 @@
-from utils import *
-import numpy as np
-import tensorflow as tf
-from tensorflow.python.ops import gen_nn_ops
-import matplotlib.pyplot as plt
+from utils                    import MNISTLoader
+from tensorflow.python.ops    import gen_nn_ops
+
+import numpy                as np
+import tensorflow           as tf
+import matplotlib.pyplot    as plt
 
 logdir = './logs/'
 chkpt = './logs/model.ckpt'
