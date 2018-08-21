@@ -1,5 +1,5 @@
 # Layerwise-Relevance-Propagation
-Implementation of Layerwise Relevance Propagation for heatmapping "deep" layers, using Tensorflow.
+Implementation of Layerwise Relevance Propagation for heatmapping "deep" layers, using Tensorflow and Keras.
 
 ## Results
 
@@ -19,14 +19,70 @@ Implementation of Layerwise Relevance Propagation for heatmapping "deep" layers,
   <img src="mnist/results/9.jpg" width="150" />
 </p>
 
+### VGG
+<p float="center">
+  <img src="vgg/results/apple.jpg" width="400" />
+  <img src="vgg/results/balloon.jpg" width="400" />
+</p>
+<p float="center">
+  <img src="vgg/results/banana.jpg" width="400" />
+  <img src="vgg/results/bball.jpg" width="400" />
+</p>
+<p float="center">
+  <img src="vgg/results/bison.jpg" width="400" />
+  <img src="vgg/results/boxer.jpg" width="400" />
+</p>
+<p float="center">
+  <img src="vgg/results/bullfrog.jpg" width="400" />
+  <img src="vgg/results/chihuahua.jpg" width="400" />
+</p>
+<p float="center">
+  <img src="vgg/results/chimp.jpg" width="400" />
+  <img src="vgg/results/coffee.jpg" width="400" />
+</p>
+<p float="center">
+  <img src="vgg/results/eagle.jpg" width="400" />
+  <img src="vgg/results/flamingo.jpg" width="400" />
+</p>
+<p float="center">
+  <img src="vgg/results/gyromitra.jpg" width="400" />
+  <img src="vgg/results/jellyfish.jpg" width="400" />
+</p>
+<p float="center">
+  <img src="vgg/results/orange.jpg" width="400" />
+  <img src="vgg/results/ostrich.jpg" width="400" />
+</p>
+<p float="center">
+  <img src="vgg/results/pizza.jpg" width="400" />
+  <img src="vgg/results/rifle.jpg" width="400" />
+</p>
+<p float="center">
+  <img src="vgg/results/scorpion.jpg" width="400" />
+  <img src="vgg/results/snorkel.jpg" width="400" />
+</p>
+<p float="center">
+  <img src="vgg/results/stingray.jpg" width="400" />
+  <img src="vgg/results/teapot.jpg" width="400" />
+</p>
+<p float="center">
+  <img src="vgg/results/volcano.jpg" width="400" />
+  <img src="vgg/results/watersnake.jpg" width="400" />
+</p>
+
 ## Instructions
 
+### MNIST
 * Run `train.py` to train model. 
 * Weights will be saved in `logs/`. 
 * Run `lrp.py` for Layerwise Relevance Propagation.
 
 NOTE: If using Tensorflow version < `1.5.0`, you need to change 
 `tf.nn.softmax_cross_entropy_with_logits_v2` to `tf.nn.softmax_cross_entropy_with_logits`.
+
+### VGG
+* Feed a list of images to run Layerwise Relevance Propagation on all images.
+* All results will be saved in `results/`.
+* Run `lrp.py <image_1> <image_2> ... <image_n>`.
 
 
 ## Reference
