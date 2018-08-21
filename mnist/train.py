@@ -1,7 +1,6 @@
-from utils 		import DataGenerator, MNISTLoader
-from model 		import MNIST_CNN
-
 import tensorflow as tf
+from utils import *
+from model import MNIST_CNN
 
 logdir = './logs/'
 chkpt = './logs/model.ckpt'

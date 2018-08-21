@@ -1,6 +1,5 @@
 import gzip
 import pickle
-
 import numpy as np
 
 DATA_PATH = './mnist.pkl.gz'
