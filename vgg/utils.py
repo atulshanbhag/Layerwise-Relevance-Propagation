@@ -8,6 +8,15 @@ from keras.preprocessing.image    import img_to_array, load_img
 
 EPS = 1e-7
 
+def get_model_params(model):
+  names, activations, weights = [], [], []
+  for layer in model.layers:
+    name = layer.name if layer.name != 'predictions' else 'fc_out'
+    names.append(name)
+    activations.append(layer.output)
+    weights.append(layer.get_weights())
+  return names, activations, weights
+
 def load_images(image_paths, target_size=(224, 224)):
   raw_images, processed_images = [], []
   for path in image_paths:
@@ -30,7 +39,7 @@ def gamma_correction(image, gamma=0.4, minamp=0, maxamp=None):
   if maxamp is None:
     maxamp = np.abs(image).max() + EPS
   image /= maxamp
-  pos_mask = (image >= 0)
+  pos_mask = (image > 0)
   neg_mask = (image < 0)
   c_image[pos_mask] = np.power(image[pos_mask], gamma)
   c_image[neg_mask] = -np.power(-image[neg_mask], gamma)
@@ -77,6 +86,18 @@ def get_gammas(images, g=0.4, **kwargs):
 def get_heatmaps(gammas, cmap_type='rainbow', **kwargs):
   heatmaps = [heatmap(g, cmap_type=cmap_type, **kwargs) for g in gammas]
   return heatmaps
+
+def visualize_heatmap(image, heatmap, label, savepath=None):
+  fig = plt.figure()
+  fig.suptitle(label)
+  ax0 = fig.add_subplot(121)
+  ax0.axis('off')
+  ax0.imshow(image)
+  ax1 = fig.add_subplot(122)
+  ax1.axis('off')
+  ax1.imshow(heatmap, interpolation='bilinear')
+  if savepath is not None:
+    fig.savefig(savepath)
 
 
 if __name__ == '__main__':
